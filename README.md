@@ -57,6 +57,11 @@ The Python connectivity script was unable to connect to the ALB endpoint. My ini
 
 After implementing these initial fixes, the application started to function.
 
+Here's the initial architecture:
+
+![Initial Architecture]("assets/datalogz test architecture before enhancements.png")
+
+
 ## Further Enhancements
 
 To improve the architecture and security, I made the following enhancements:
@@ -96,3 +101,8 @@ The following are potential future enhancements:
 3.  **Containerization:** Containerizing the application using Docker for improved portability and consistency.
 
 4.  **Kubernetes:** If the application grows to include multiple microservices, migrating to Kubernetes for better orchestration and management.
+
+
+And here's the final architecture after enhancements:
+
+![Final Architecture]("assets/datalogz test architecture after enhancements.png")
