@@ -8,7 +8,7 @@ def index():
     return "Hello, world!"
 
 @app.route("/health")
-def health-check():
+def healthcheck():
     return "", 200
 
 if __name__ == "__main__":
