@@ -1,6 +1,8 @@
+#creating security groups
+#sg for load balancer
 resource "aws_security_group" "lb_sg" {
   name        = "lb_sg"
-  description = "Allow HTTP traffic to load balancer"
+  description = "Allow HTTP traffic to load balancer on port 80"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -18,9 +20,10 @@ resource "aws_security_group" "lb_sg" {
   }
 }
 
+#sg for ec2 instance
 resource "aws_security_group" "web_sg" {
   name        = "web_sg"
-  description = "Allow HTTP traffic on port 80"
+  description = "Allow HTTP traffic on port 5000"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -38,6 +41,11 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
+
+
+
+
+#creating ec2 instance
 resource "aws_instance" "web" {
   ami                    = "ami-00bb6a80f01f03502" # Ubuntu server 24.04 AMI
   instance_type          = "t2.micro"
@@ -47,7 +55,7 @@ resource "aws_instance" "web" {
 
   associate_public_ip_address = false
 
-  user_data                   = file("/home/pico/datalogz/script.sh")
+  user_data                   = file("/home/pico/datalogz/script.sh") #using script.sh as user data to install and run app.py on created ec2 instance
   user_data_replace_on_change = true
 
   tags = {
@@ -56,12 +64,15 @@ resource "aws_instance" "web" {
 }
 
 
+
+
+#creating alb, target group, listener and attaching created ec2 instance to target group.
 resource "aws_lb" "app_lb" {
   name               = "app-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = module.vpc.public_subnets # Example subnets
+  subnets            = module.vpc.public_subnets
 }
 
 resource "aws_lb_target_group" "tg" {
@@ -99,6 +110,10 @@ resource "aws_lb_target_group_attachment" "tg_attachment" {
 }
 
 
+
+
+
+#displaying relevant info to console
 output "instance_id" {
   description = "ID of the EC2 instance"
   value       = aws_instance.web.id

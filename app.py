@@ -7,6 +7,7 @@ app = Flask(__name__)
 def index():
     return "Hello, world!"
 
+#added /health route so that health checks can succeed
 @app.route("/health")
 def healthcheck():
     return "", 200
