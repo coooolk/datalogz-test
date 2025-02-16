@@ -1,11 +1,7 @@
-provider "aws" {
-  region = "ap-south-1"
-}
-
 resource "aws_security_group" "lb_sg" {
   name        = "lb_sg"
   description = "Allow HTTP traffic to load balancer"
-  vpc_id      = "vpc-027c5aa72f29ede16"
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port   = 80
@@ -25,7 +21,7 @@ resource "aws_security_group" "lb_sg" {
 resource "aws_security_group" "web_sg" {
   name        = "web_sg"
   description = "Allow HTTP traffic on port 80"
-  vpc_id      = "vpc-027c5aa72f29ede16"
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port   = 5000
@@ -47,21 +43,15 @@ resource "aws_instance" "web" {
   instance_type          = "t2.micro"
   key_name               = "default-aws-key-pair"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
+  subnet_id              = module.vpc.private_subnets[0]
 
   associate_public_ip_address = false
 
-  user_data                   = file("script.sh")
+  user_data                   = file("/home/pico/datalogz/script.sh")
   user_data_replace_on_change = true
 
   tags = {
     Name = "FlaskWebServer"
-  }
-}
-
-data "aws_subnets" "public" {
-  filter {
-    name   = "vpc-id"
-    values = ["vpc-027c5aa72f29ede16"]
   }
 }
 
@@ -71,14 +61,14 @@ resource "aws_lb" "app_lb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = ["subnet-0f73f26d3e8a041a7", "subnet-0d7ae98be33c81945", "subnet-05bf5b97322f4d0a6"] # Example subnets
+  subnets            = module.vpc.public_subnets # Example subnets
 }
 
 resource "aws_lb_target_group" "tg" {
   name     = "flask-tg"
   port     = 5000
   protocol = "HTTP"
-  vpc_id   = "vpc-027c5aa72f29ede16"
+  vpc_id   = module.vpc.vpc_id
 
   health_check {
     path                = "/health"
@@ -114,10 +104,10 @@ output "instance_id" {
   value       = aws_instance.web.id
 }
 
-output "instance_public_ip" {
-  description = "Public IP address of the EC2 instance"
-  value       = aws_instance.web.public_ip
-}
+#output "instance_public_ip" {
+#  description = "Public IP address of the EC2 instance"
+#  value       = aws_instance.web.public_ip
+#}
 
 output "instance_private_ip" {
   description = "Private IP address of the EC2 instance"
