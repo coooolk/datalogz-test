@@ -2,20 +2,34 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-resource "aws_security_group" "web_sg" {
-  name        = "web_sg"
-  description = "Allow HTTP traffic on port 80"
+resource "aws_security_group" "lb_sg" {
+  name        = "lb_sg"
+  description = "Allow HTTP traffic to load balancer"
+  vpc_id      = "vpc-027c5aa72f29ede16"
 
   ingress {
-    from_port   = 5000
-    to_port     = 5000
+    from_port   = 80
+    to_port     = 80
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "web_sg" {
+  name        = "web_sg"
+  description = "Allow HTTP traffic on port 80"
+  vpc_id      = "vpc-027c5aa72f29ede16"
+
   ingress {
-    from_port   = 22
-    to_port     = 22
+    from_port   = 5000
+    to_port     = 5000
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -34,7 +48,10 @@ resource "aws_instance" "web" {
   key_name               = "default-aws-key-pair"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
 
-  user_data = file("script.sh")
+  associate_public_ip_address = false
+
+  user_data                   = file("script.sh")
+  user_data_replace_on_change = true
 
   tags = {
     Name = "FlaskWebServer"
@@ -53,6 +70,7 @@ resource "aws_lb" "app_lb" {
   name               = "app-lb"
   internal           = false
   load_balancer_type = "application"
+  security_groups    = [aws_security_group.lb_sg.id]
   subnets            = ["subnet-0f73f26d3e8a041a7", "subnet-0d7ae98be33c81945", "subnet-05bf5b97322f4d0a6"] # Example subnets
 }
 
@@ -99,4 +117,14 @@ output "instance_id" {
 output "instance_public_ip" {
   description = "Public IP address of the EC2 instance"
   value       = aws_instance.web.public_ip
+}
+
+output "instance_private_ip" {
+  description = "Private IP address of the EC2 instance"
+  value       = aws_instance.web.private_ip
+}
+
+output "lb_dns_name" {
+  description = "DNS name of Load Balancer"
+  value       = aws_lb.app_lb.dns_name
 }
