@@ -17,3 +17,18 @@ variable "region" {
   description = "Default deployment region"
   type        = string
 }
+
+variable "ami_id" {
+  description = "ami to use"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "Instance type to spawn"
+  type        = string
+}
+
+variable "key_name" {
+  description = "Name of key pair to use"
+  type        = string
+}

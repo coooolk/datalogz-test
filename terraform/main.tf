@@ -23,7 +23,7 @@ resource "aws_security_group" "lb_sg" {
 #sg for ec2 instance
 resource "aws_security_group" "web_sg" {
   name        = "web_sg"
-  description = "Allow HTTP traffic on port 5000"
+  description = "Allow HTTP ingress traffic on port 5000"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -47,9 +47,9 @@ resource "aws_security_group" "web_sg" {
 
 #creating ec2 instance
 resource "aws_instance" "web" {
-  ami                    = "ami-00bb6a80f01f03502" # Ubuntu server 24.04 AMI
-  instance_type          = "t2.micro"
-  key_name               = "default-aws-key-pair"
+  ami                    = var.ami_id # Ubuntu server 24.04 AMI on ap-south-1
+  instance_type          = var.instance_type
+  key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   subnet_id              = module.vpc.private_subnets[0]
 
@@ -57,6 +57,8 @@ resource "aws_instance" "web" {
 
   user_data                   = file("/home/pico/datalogz/script.sh") #using script.sh as user data to install and run app.py on created ec2 instance
   user_data_replace_on_change = true
+
+  depends_on = [module.vpc.enable_nat_gateway]
 
   tags = {
     Name = "FlaskWebServer"
