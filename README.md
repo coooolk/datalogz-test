@@ -65,7 +65,7 @@ After implementing these initial fixes, the application started to function.
 
 Here's the initial architecture:
 
-![Initial Architecture]("assets/datalogz test architecture before enhancements.png")
+<img width="1449" alt="datalogz test architecture before enhancements" src="https://github.com/user-attachments/assets/614a6a42-d6f8-430b-b487-a0177da407f2" />
 
 
 ## Further Enhancements
