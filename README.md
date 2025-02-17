@@ -62,11 +62,12 @@ This document outlines the issues I encountered with the provided Terraform conf
 4.  **User Data Deployment:** I used the `user_data` feature in the `aws_instance` resource to deploy the `script.sh` to the EC2 instance during provisioning.
 
 After implementing these initial fixes, the application started to function.
-
+<br/>
+<br/>
 Here's the initial architecture:
-
 <img width="1449" alt="datalogz test architecture before enhancements" src="https://github.com/user-attachments/assets/614a6a42-d6f8-430b-b487-a0177da407f2" />
-
+<br/>
+<br/>
 
 ## Further Enhancements
 
@@ -95,10 +96,12 @@ To improve the architecture and security, I made the following enhancements:
 
 8.  **Output Variables:** I used Terraform outputs to display relevant information (like the load balancer's DNS name and the instance's private IP) directly in the terminal, simplifying access and verification.
 - **Why:** Outputs make it easy to retrieve important information about the deployed infrastructure, such as the load balancer's DNS name or the EC2 instance's private IP address. This simplifies access and verification without having to manually navigate the AWS console.
-
+<br/>
+<br/>
 And here's the final architecture after enhancements:
 <img width="1449" alt="datalogz test architecture after enhancements" src="https://github.com/user-attachments/assets/d9e418de-8bd5-460a-941b-85c56264643e" />
-
+<br/>
+<br/>
 ## Future Scope
 
 The following are potential future enhancements:
