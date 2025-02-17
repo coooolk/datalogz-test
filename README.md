@@ -102,6 +102,7 @@ And here's the final architecture after enhancements:
 <img width="1449" alt="datalogz test architecture after enhancements" src="https://github.com/user-attachments/assets/d9e418de-8bd5-460a-941b-85c56264643e" />
 <br/>
 <br/>
+
 ## Future Scope
 
 The following are potential future enhancements:
