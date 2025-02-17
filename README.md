@@ -96,6 +96,9 @@ To improve the architecture and security, I made the following enhancements:
 8.  **Output Variables:** I used Terraform outputs to display relevant information (like the load balancer's DNS name and the instance's private IP) directly in the terminal, simplifying access and verification.
 - **Why:** Outputs make it easy to retrieve important information about the deployed infrastructure, such as the load balancer's DNS name or the EC2 instance's private IP address. This simplifies access and verification without having to manually navigate the AWS console.
 
+And here's the final architecture after enhancements:
+<img width="1449" alt="datalogz test architecture after enhancements" src="https://github.com/user-attachments/assets/d9e418de-8bd5-460a-941b-85c56264643e" />
+
 ## Future Scope
 
 The following are potential future enhancements:
@@ -108,7 +111,3 @@ The following are potential future enhancements:
 
 4.  **Kubernetes:** If the application grows to include multiple microservices, migrating to Kubernetes for better orchestration and management.
 
-
-And here's the final architecture after enhancements:
-
-![Final Architecture](assets/datalogz test architecture after enhancements.png)
