@@ -29,7 +29,6 @@ This document outlines the issues I encountered with the provided Terraform conf
 
 ## Initial Problem Analysis
 
-The Python connectivity script was unable to connect to the ALB endpoint. My initial analysis revealed several contributing factors across both the application and infrastructure layers.
 
 ## Identified Issues
 
@@ -39,7 +38,7 @@ The Python connectivity script was unable to connect to the ALB endpoint. My ini
 
 3.  **Application Deployment:** There was no mechanism to deploy the `app.py` file to the EC2 instance and run it.
 
-4.  **Security Group Misconfiguration:** Both the load balancer and the EC2 instance were using the *same* security group. This is a security risk, as it potentially exposes the instance directly to the internet.
+4.  **Security Group Misconfiguration:** Both the load balancer and the EC2 instance were using the *same* security group. This is a security risk, exposing unnecessary port 5000 on load balancer and unnecessary port 80 on ec2 instance.
 
 5.  **EC2 Instance in Public Subnet:** The EC2 instance was placed in a public subnet, which is another security concern. Instances behind a load balancer should ideally reside in private subnets.
 
