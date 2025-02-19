@@ -55,7 +55,8 @@ This document outlines the issues I encountered with the provided Terraform conf
 ## Solutions Implemented
 
 1.  **Health Check Endpoint:** I added a `/health` route to the Flask application that returns a 200 status code. This allows the ALB's target group to perform health checks.
-```@app.route("/health")
+```python
+@app.route("/health")
 def healthcheck():
     return "", 200
 ```
