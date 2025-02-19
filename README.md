@@ -50,7 +50,7 @@ The primary issue was the Python connectivity script's inability to connect to t
 
 4.  **Security Group Misconfiguration:** Both the load balancer and the EC2 instance were using the *same* security group. This is a security risk. The load balancer's security group unnecessarily had port 5000 open to the internet, and the EC2 instance's security group had port 80 open, exposing it unnecessarily.
 
-5.  **EC2 Instance in Public Subnet:** The EC2 instance was placed in a public subnet, which is another security concern. Instances behind a load balancer should ideally reside in private subnets.
+5.  **EC2 Instance in Public Subnet:** The EC2 instance was placed in a public subnet, which is another security concern.
 
 6.  **Hardcoded Values:** The Terraform configuration contained many hardcoded values, making it less flexible and reusable.
 
