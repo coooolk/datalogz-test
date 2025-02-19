@@ -55,6 +55,10 @@ This document outlines the issues I encountered with the provided Terraform conf
 ## Solutions Implemented
 
 1.  **Health Check Endpoint:** I added a `/health` route to the Flask application that returns a 200 status code. This allows the ALB's target group to perform health checks.
+```@app.route("/health")
+def healthcheck():
+    return "", 200
+```
 
 2.  **Security Group Rule for Port 5000:** I added an ingress rule to the security group to allow traffic on port 5000.  Initially, I added the rule to the same security group.
 
