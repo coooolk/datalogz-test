@@ -44,7 +44,7 @@ The primary issue was the Python connectivity script's inability to connect to t
 
 1.  **Missing Health Check Endpoint:** The Flask application lacked a `/health` route.  This prevented the ALB's target group health checks from functioning correctly, which would ultimately prevent the EC2 instance from being added to the target group.
 
-2.  **Incorrect Security Group Configuration:** The security group only allowed traffic on port 80, but the Flask application was exposed on port 5000. This mismatch would block communication between the ALB and the instance.
+2.  **Incorrect Security Group Configuration:** The security group only allowed traffic on port 80, but the Flask application was exposed on port 5000. This mismatch would block communication with the instance.
 
 3.  **Application Deployment:** There was no mechanism to deploy the `app.py` file to the EC2 instance and run it.
 
