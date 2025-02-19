@@ -90,7 +90,7 @@ echo "Flask app started in the background."
 After implementing these initial fixes, the application started to function.
 <br/>
 <br/>
-Here's the initial architecture:
+Here's the initial architecture(before enhancements):
 <img width="1449" alt="datalogz test architecture before enhancements" src="https://github.com/user-attachments/assets/614a6a42-d6f8-430b-b487-a0177da407f2" />
 <br/>
 <br/>
