@@ -37,6 +37,8 @@ This document outlines the issues I encountered with the provided Terraform conf
 
 ## Initial Problem Analysis
 
+The primary issue was the Python connectivity script's inability to connect to the ALB endpoint. My troubleshooting process started with a thorough review of the Flask application code to ensure the application itself was functioning correctly and listening on the expected port. I then examined the Terraform configuration, paying close attention to the security group rules and load balancer configuration. Finally, I analyzed the Python connectivity script to verify its accuracy and target endpoint.
+
 
 ## Identified Issues
 
