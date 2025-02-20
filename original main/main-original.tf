@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-2"
+  region = "ap-south-1"
 }
 
 resource "aws_security_group" "web_sg" {
@@ -13,6 +13,13 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -22,10 +29,13 @@ resource "aws_security_group" "web_sg" {
 }
 
 resource "aws_instance" "web" {
-  ami             = "ami-0c55b159cbfafe1f0" # Amazon Linux 2 AMI
-  instance_type   = "t3.small"
-  key_name        = "exercise-key"
+  ami                    = "ami-00bb6a80f01f03502" # Amazon Linux 2 AMI
+  instance_type          = "t2.micro"
+  key_name               = "default-aws-key-pair"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
+
+  user_data                   = file("/home/pico/datalogz/script.sh")
+  user_data_replace_on_change = true
 
   tags = {
     Name = "FlaskWebServer"
@@ -33,17 +43,18 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_lb" "app_lb" {
-  name               = "app-lb"
+  name               = "app-lb-old"
   internal           = false
   load_balancer_type = "application"
-  subnets            = ["subnet-0123456789abcdef0", "subnet-0fedcba9876543210"] # Example subnets
+  security_groups    = [aws_security_group.web_sg.id]
+  subnets            = ["subnet-0d7ae98be33c81945", "subnet-0f73f26d3e8a041a7"] # Example subnets
 }
 
 resource "aws_lb_target_group" "tg" {
-  name     = "flask-tg"
+  name     = "flask-tg-old"
   port     = 5000
   protocol = "HTTP"
-  vpc_id   = "vpc-0123456789"
+  vpc_id   = "vpc-027c5aa72f29ede16"
 
   health_check {
     path                = "/health"
