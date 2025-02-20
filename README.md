@@ -87,6 +87,8 @@ echo "Flask app started in the background."
 
 4.  **User Data Deployment:** I used the `user_data` feature in the `aws_instance` resource to deploy the `script.sh` to the EC2 instance during provisioning.
 
+5. **Security Group Association with ALB:** I associated the web_sg security group with the Application Load Balancer as well.  This allowed the ALB to receive traffic on port 80 (which was already allowed by the security group's ingress rules) and then forward it to the EC2 instance on port 5000.
+
 After implementing these initial fixes, the application started to function.
 <br/>
 <br/>
